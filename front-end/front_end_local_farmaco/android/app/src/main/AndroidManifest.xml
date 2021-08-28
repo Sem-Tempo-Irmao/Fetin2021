@@ -3,6 +3,8 @@
    <application
         android:label="Local Fármaco"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+          android:value="AIzaSyCvxLfKMi0RVJduQdmVpJ56sNnf2TwgEl0"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
