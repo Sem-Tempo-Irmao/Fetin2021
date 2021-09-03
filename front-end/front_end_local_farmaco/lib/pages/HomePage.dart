@@ -1,9 +1,12 @@
 import 'dart:ui';
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+
+import 'FavoritesPage.dart';
 import 'ResultsPage.dart';
+import 'SettingsPage.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -78,9 +81,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               leading: Icon(Icons.star, color: Colors.red),
+              // Abre os favoritos
               onTap: () {
-                // Update the state of the app.
-                // TODO: Abre os favoritos
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FavoritesPage(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -91,9 +99,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               leading: Icon(Icons.settings, color: Colors.red),
+              // Abre as Configurações
               onTap: () {
-                // Update the state of the app.
-                // TODO: Abre as configurações
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SettingsPage(),
+                  ),
+                );
               },
             ),
           ],
@@ -131,18 +144,21 @@ class _MyHomePageState extends State<MyHomePage> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: new Text("Erro"),
-                              content: new Text("Digite o fármaco a ser pesquisado"),
+                              content:
+                                  new Text("Digite o fármaco a ser pesquisado"),
                               actions: <Widget>[
                                 TextButton(
                                   style: TextButton.styleFrom(
                                     primary: Colors.white,
                                     minimumSize: Size(88, 44),
-                                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16.0),
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                                      ),
-                                      backgroundColor: Colors.red,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(2.0)),
                                     ),
+                                    backgroundColor: Colors.red,
+                                  ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
@@ -154,7 +170,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             );
                           });
-                    
                   },
                 ),
                 Container(
