@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'ResultsPage.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Opções',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 13 + 13,
+                  fontSize: 26,
                 ),
               ),
               decoration: BoxDecoration(
@@ -118,7 +118,43 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), labelText: 'Pesquisa'),
                   onSubmitted: (String value) {
-                    // faz a busca pelo "value"
+                    if (value.isNotEmpty)
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResultsPage(search: value),
+                        ),
+                      );
+                    else
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: new Text("Erro"),
+                              content: new Text("Digite o fármaco a ser pesquisado"),
+                              actions: <Widget>[
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.white,
+                                    minimumSize: Size(88, 44),
+                                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                      ),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    "OK",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
+                    
                   },
                 ),
                 Container(
