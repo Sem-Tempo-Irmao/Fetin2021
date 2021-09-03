@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:location/location.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -24,16 +24,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Completer<GoogleMapController> _controller = Completer();
+  late GoogleMapController _controller;
   TextEditingController _pesq = TextEditingController();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(-22.256897, -45.7011926),
-    zoom: 14.4746,
+    zoom: 16,
   );
-  
+  void _onMapCreated(GoogleMapController _cntlr) {
+    _controller = _cntlr;
+    _location.onLocationChanged.listen((l) {
+      _controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 16),
+        ),
+      );
+    });
+  }
 
-
+  Location _location = Location();
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -42,18 +51,19 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    
+
     return Scaffold(
       // menu lateral -> drawer
       drawer: Drawer(
         child: ListView(
-        padding: EdgeInsets.only(top: 40),
+          padding: EdgeInsets.only(top: 40),
           children: [
             const DrawerHeader(
-              child: Text('Opções',
+              child: Text(
+                'Opções',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 13+13,
+                  fontSize: 13 + 13,
                 ),
               ),
               decoration: BoxDecoration(
@@ -61,11 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             ListTile(
-              title: const Text('Favoritos',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
+              title: const Text(
+                'Favoritos',
+                style: TextStyle(
+                  fontSize: 20,
                 ),
+              ),
               leading: Icon(Icons.star, color: Colors.red),
               onTap: () {
                 // Update the state of the app.
@@ -73,11 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             ListTile(
-              title: const Text('Configurações',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
+              title: const Text(
+                'Configurações',
+                style: TextStyle(
+                  fontSize: 20,
                 ),
+              ),
               leading: Icon(Icons.settings, color: Colors.red),
               onTap: () {
                 // Update the state of the app.
@@ -95,36 +107,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       body: ListView(
-        padding: EdgeInsets.only(top: 20, left: 20, right: 10),
-        children: <Widget> [
+        padding: EdgeInsets.only(top: 20, left: 10, right: 10),
+        children: <Widget>[
           Center(
-            child:
-            // Center is a layout widget. It takes a single child and positions it
-            // in the middle of the parent.
-            Column(
-              // Column is also a layout widget. It takes a list of children and
-              // arranges them vertically. By default, it sizes itself to fit its
-              // children horizontally, and tries to be as tall as its parent.
-              //
-              // Invoke "debug painting" (press "p" in the console, choose the
-              // "Toggle Debug Paint" action from the Flutter Inspector in Android
-              // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-              // to see the wireframe for each widget.
-              //
-              // Column has various properties to control how it sizes itself and
-              // how it positions its children. Here we use mainAxisAlignment to
-              // center the children vertically; the main axis here is the vertical
-              // axis because Columns are vertical (the cross axis would be
-              // horizontal).
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 TextField(
                   controller: _pesq,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Pesquisa'
-                  ),
-                  onSubmitted: (String value){
+                      border: OutlineInputBorder(), labelText: 'Pesquisa'),
+                  onSubmitted: (String value) {
                     // faz a busca pelo "value"
                   },
                 ),
@@ -135,23 +128,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Digite o que deseja procurar no espaço acima.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     color: Colors.black,
                   ),
                 ),
                 Container(
                   height: 20,
                 ),
-                SizedBox(
+                Container(
                   height: 400,
-                  width: 400,
+                  width: MediaQuery.of(context).size.width,
                   child: GoogleMap(
                     liteModeEnabled: true,
                     mapType: MapType.normal,
                     initialCameraPosition: _kGooglePlex,
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                    },
+                    onMapCreated: _onMapCreated,
+                    myLocationEnabled: true,
                   ),
                 )
               ],
