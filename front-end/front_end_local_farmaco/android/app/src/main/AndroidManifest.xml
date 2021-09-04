@@ -2,7 +2,7 @@
     package="com.example.front_end_local_farmaco">
    <application
         android:label="Local Fármaco"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <meta-data android:name="com.google.android.geo.API_KEY"
           android:value="AIzaSyCvxLfKMi0RVJduQdmVpJ56sNnf2TwgEl0"/>
         <activity

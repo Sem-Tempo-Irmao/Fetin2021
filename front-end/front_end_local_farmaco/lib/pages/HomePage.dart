@@ -133,7 +133,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       labelText: 'Pesquise aqui',
                       suffixIcon: Icon(Icons.search),
                     ),
-              
                   onSubmitted: (String value) {
                     if (value.isNotEmpty)
                       Navigator.push(
