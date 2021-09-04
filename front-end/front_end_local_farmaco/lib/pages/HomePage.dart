@@ -129,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextField(
                   controller: _pesq,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'Pesquisa'),
+                      border: OutlineInputBorder(), labelText: 'Pesquise aqui'),
                   onSubmitted: (String value) {
                     if (value.isNotEmpty)
                       Navigator.push(
@@ -143,9 +143,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: new Text("Erro"),
-                              content:
-                                  new Text("Digite o fármaco a ser pesquisado"),
+                              title: Text("Erro"),
+                              content: Text("Digite o fármaco a ser pesquisado"),
                               actions: <Widget>[
                                 TextButton(
                                   style: TextButton.styleFrom(
@@ -175,19 +174,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   height: 20,
                 ),
-                Text(
-                  'Digite o que deseja procurar no espaço acima.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                  ),
-                ),
                 Container(
-                  height: 20,
-                ),
-                Container(
-                  height: 400,
+                  height: 600,
                   width: MediaQuery.of(context).size.width,
                   child: GoogleMap(
                     liteModeEnabled: true,
