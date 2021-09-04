@@ -129,7 +129,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextField(
                   controller: _pesq,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'Pesquise aqui'),
+                      border: OutlineInputBorder(), 
+                      labelText: 'Pesquise aqui',
+                      suffixIcon: Icon(Icons.search),
+                    ),
+              
                   onSubmitted: (String value) {
                     if (value.isNotEmpty)
                       Navigator.push(
