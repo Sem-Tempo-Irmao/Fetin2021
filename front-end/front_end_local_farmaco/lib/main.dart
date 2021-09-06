@@ -3,6 +3,7 @@ import 'pages/HomePage.dart';
 
 void main() {
   runApp(MyApp());
+  // flutter run --no-sound-null-safety
 }
 
 class MyApp extends StatelessWidget {

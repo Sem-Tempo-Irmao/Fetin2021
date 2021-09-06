@@ -129,10 +129,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextField(
                   controller: _pesq,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(), 
-                      labelText: 'Pesquise aqui',
-                      suffixIcon: Icon(Icons.search),
-                    ),
+                    border: OutlineInputBorder(), 
+                    labelText: 'Pesquise aqui',
+                    suffixIcon: Icon(Icons.search),
+                  ),
                   onSubmitted: (String value) {
                     if (value.isNotEmpty)
                       Navigator.push(
@@ -153,8 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   style: TextButton.styleFrom(
                                     primary: Colors.white,
                                     minimumSize: Size(88, 44),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 16.0),
+                                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(2.0)),
@@ -181,8 +180,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 600,
                   width: MediaQuery.of(context).size.width,
                   child: GoogleMap(
-                    liteModeEnabled: true,
-                    mapType: MapType.normal,
+                    liteModeEnabled: false,
+                    mapToolbarEnabled: false,
+                    mapType: MapType.terrain,
                     initialCameraPosition: _kGooglePlex,
                     onMapCreated: _onMapCreated,
                     myLocationEnabled: true,
