@@ -3,9 +3,7 @@ import 'package:front_end_local_farmaco/produto/Farmaco.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ProductPage extends StatefulWidget {
-  // TODO: pagFavoritos deve ser alterado, não irá fazer sentido quando a verificacao da lista de favoritos for implementada
-  ProductPage({Key? key, required this.prod, required this.pagFavoritos}) : super(key: key);
-  final bool pagFavoritos;
+  ProductPage({Key? key, required this.prod}) : super(key: key);
   final Produto prod;
   @override
   _ProductPageState createState() => _ProductPageState();
@@ -52,6 +50,17 @@ class _ProductPageState extends State<ProductPage> {
       ],
     );
   }
+  
+  Widget InfosCosmetico(){
+    Cosmetico c = widget.prod as Cosmetico;
+    return Column(
+      children: [
+        ItemDescricao("Conteúdo", c.conteudo),
+        ItemDescricao("Marca", c.marca),
+        ItemDescricao("Categoria", c.categoria),
+      ],
+    );
+  }
 
   Set<Marker> ponteiros = {};
 
@@ -60,7 +69,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
     super.initState();
-    liked = widget.pagFavoritos;
+    liked = Produto.fav.contains(widget.prod);
     ponteiros.add(Marker(
       markerId: MarkerId(widget.prod.farmacia),
       draggable: true,
@@ -69,6 +78,9 @@ class _ProductPageState extends State<ProductPage> {
         
       }
     ));
+    setState(() {
+      
+    });
   }
 
   @override
@@ -96,9 +108,15 @@ class _ProductPageState extends State<ProductPage> {
                 GestureDetector(
                   child: Icon(liked?Icons.star:Icons.star_border, color: Colors.red,size: 30,),
                   onTap: () {
-                    // TODO: adicionar ou remover dos favoritos
                     liked = !liked;
-                    setState(() {});
+                    setState(() {
+                      if(liked) {
+                        Produto.fav.add(widget.prod);
+                      }
+                      else {
+                        Produto.fav.remove(widget.prod);
+                      }
+                    });
                   },                  
                 )
               ],
@@ -107,9 +125,11 @@ class _ProductPageState extends State<ProductPage> {
             Image.network(widget.prod.linkImagem, width: MediaQuery.of(context).size.width,),
             Space(),
             ItemDescricao('Preço', 'R\$ ' + '${widget.prod.preco.toStringAsFixed(2)}'),
-            ItemDescricao('Quantidade em estoque: ', widget.prod.estoque.toString()),
+            ItemDescricao('Quantidade em estoque', widget.prod.estoque.toString()),
             if(widget.prod is Remedio)
               InfosRemedio(),
+            if(widget.prod is Cosmetico)
+              InfosCosmetico(),
             Space(),
             ItemDescricao('Farmácia', widget.prod.farmacia),
             ItemDescricao('Localização', ''),

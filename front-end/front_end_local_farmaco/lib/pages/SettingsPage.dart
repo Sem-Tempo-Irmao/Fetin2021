@@ -18,7 +18,13 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: EdgeInsets.only(top: 20, left: 10, right: 10),
         children: [
-          Text('debug') // debug
+          Text (
+            'Nada para configurar!',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold
+            ),
+          ) // debug
         ],
       ),
     );

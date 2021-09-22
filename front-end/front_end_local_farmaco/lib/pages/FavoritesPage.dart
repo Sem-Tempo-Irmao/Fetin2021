@@ -18,15 +18,21 @@ class _FavoritesPageState extends State<FavoritesPage> {
     return SizedBox(height: 20);
   }
 
-  Widget Card(double fakeDistancia, Produto _q) {
-    return InkWell(
-      onTap: (){
-        Navigator.push(
+  Widget Card(Produto _q) {
+    return 
+    Column(
+      children: [
+        InkWell(
+      onTap: () async { // assincrona
+        // espera resolver a ProductPage
+        await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductPage(prod:_q,pagFavoritos: true,),
+            builder: (context) => ProductPage(prod:_q,),
           ),
         );
+        // apos isso, seta um novo estado (importante no caso de apagar dos favoritos)
+        setState(() {});
       },
       child: Container(
         height: 120,
@@ -66,7 +72,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 ),
                 SizedBox(height: 5),
                 Text(
-                    'Distância: ' + '${fakeDistancia}' + ' km',
+                    'Distância: ' + '${_q.distancia}' + ' km',
                     style: TextStyle(
                     fontSize: 16,
                   ),
@@ -76,6 +82,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
           ],
         )
       ),
+    ),
+    Space(),
+      ],
     );
   }
 
@@ -88,8 +97,15 @@ class _FavoritesPageState extends State<FavoritesPage> {
       body: ListView(
         padding: EdgeInsets.only(top: 10, left: 10, right: 10),
         children: [
-          Card(0.3, Remedio('https://araujo.vteximg.com.br/arquivos/ids/4016625-1000-1000/07896714213736.jpg?v=637411331362470000','Dipirona', 4.95, 32, 'Drogarias Bifarma', LatLng(-22.2531,-45.7053), '500 g', 'Nenhuma', 'Neo Química', 'Via oral', 'Genérico', 'Analgésico')),
-          Space(),
+          if (Produto.fav.isEmpty)
+            Text("Nenhum item favorito!",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+          for(int i = 0; i < Produto.fav.length; i++)
+            Card(Produto.fav.elementAt(i)),
         ],
       ),
     );
